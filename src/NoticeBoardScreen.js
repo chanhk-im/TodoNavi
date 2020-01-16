@@ -9,7 +9,6 @@ export default class NoticeBoardScreen extends Component {
         const abc = navigation.getParam("data", null);
         const removeData = navigation.getParam("removeData", null)
         const editData = navigation.getParam("editData", null);
-        console.log(editData);
 
         const id = abc.id;
         const title = abc.title;
