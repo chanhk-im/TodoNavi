@@ -8,6 +8,8 @@ export default class NoticeBoardScreen extends Component {
         const { navigation } = this.props;
         const abc = navigation.getParam("data", null);
         const removeData = navigation.getParam("removeData", null)
+        const editData = navigation.getParam("editData", null);
+        console.log(editData);
 
         const id = abc.id;
         const title = abc.title;
@@ -21,9 +23,14 @@ export default class NoticeBoardScreen extends Component {
                 <Text style={styles.post}>{post}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => {
                     removeData(id);
-                    navigation.navigate("Home");
+                    navigation.goBack();
                 }}>
                     <Text>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => {
+                    navigation.navigate("Update", {editData: editData, data: abc});
+                }}>
+                    <Text>Edit</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -41,7 +48,6 @@ const styles = StyleSheet.create({
     },
     author: {
         fontSize: 12,
-        width: 100,
     },
     post: {
         fontSize: 14

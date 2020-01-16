@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-export default class WriteScreen extends Component {
+
+export default class UpdateScreen extends Component {
     state = {
+        id: "",
         newTitle: "",
         newAuthor: "",
         newPost: ""
     };
 
-
+    componentDidMount() {
+        let data = this.props.navigation.getParam("data", null);
+        this.setState({
+            id: data.id,
+            newTitle: data.title,
+            newAuthor: data.author,
+            newPost: data.post,
+        });
+    }
 
     render() {
-        let addData = this.props.navigation.getParam("addData", null);
+        let editData = this.props.navigation.getParam("editData", null);
 
         return (
             <View style={styles.container}>
@@ -45,14 +55,14 @@ export default class WriteScreen extends Component {
                             style={styles.completeButton}
                             onPress={() => {
                                 const newData = {
-                                    id: Date.now(),
+                                    id: this.state.id,
                                     title: this.state.newTitle,
                                     author: this.state.newAuthor,
                                     post: this.state.newPost
                                 };
 
-                                addData(newData);
-                                this.props.navigation.goBack();
+                                editData(newData);
+                                this.props.navigation.navigate("Home");
                             }}
                         >
                             <Text>Complete</Text>

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
 
 export default class PostCard extends Component {
     render() {
@@ -10,7 +8,16 @@ export default class PostCard extends Component {
                 <View style={styles.container}>
                     {this.props.post.map(data => {
                         return (
-                            <TouchableOpacity key={data.id} onPress={() => this.props.navigation.navigate("NoticeBoard", {data: data, removeData: this.props.removeData})}>
+                            <TouchableOpacity
+                                key={data.id}
+                                onPress={() =>
+                                    this.props.navigation.navigate("NoticeBoard", {
+                                        data: data,
+                                        removeData: this.props.removeData,
+                                        editData: this.props.editData
+                                    })
+                                }
+                            >
                                 <View style={styles.postCard}>
                                     <View style={{ margin: 5 }}>
                                         <View style={styles.Titleitem}>
@@ -32,7 +39,7 @@ export default class PostCard extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: "column"
     },
     Titleitem: {
         flexDirection: "row",
@@ -40,7 +47,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 10,
         backgroundColor: "#407ddb",
-        borderRadius: 5,
+        borderRadius: 5
     },
     postCard: {
         height: 200,
@@ -51,13 +58,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 25,
         color: "white",
-        margin: 2,
+        margin: 2
     },
     author: {
         fontSize: 12,
         width: 100,
         color: "white",
-        margin: 2,
+        margin: 2
     },
     post: {
         fontSize: 14

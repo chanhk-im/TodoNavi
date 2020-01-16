@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, AsyncStorage } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import WriteScreen from "./src/WriteScreen";
 import PostCard from "./src/PostCard";
 import NoticeBoardScreen from "./src/NoticeBoardScreen";
+import UpdateScreen from "./src/UpdateScreen";
 
 class HomeScreen extends Component {
     state = {
@@ -16,6 +17,7 @@ class HomeScreen extends Component {
         super(props);
         this.addData = this.addData.bind(this);
         this.removeData = this.removeData.bind(this);
+        this.editData = this.editData.bind(this);
     }
 
     componentDidMount() {
@@ -40,7 +42,21 @@ class HomeScreen extends Component {
     removeData(id) {
         let post = this.state.post;
         const index = post.findIndex(e => e.id === id);
+
         post.splice(index, 1);
+
+        this.setState({
+            post: post
+        })
+        AsyncStorage.setItem("Posts", JSON.stringify(post));
+    }
+
+    editData(data) {
+        let post = this.state.post;
+        const index = post.findIndex(e => e.id === data.id);
+
+        this.state.post[index] = data;
+
         this.setState({
             post: post
         })
@@ -59,7 +75,7 @@ class HomeScreen extends Component {
                     </TouchableOpacity>
                     
                 </View>
-                    <PostCard post={this.state.post} navigation={this.props.navigation} removeData={this.removeData}/>
+                    <PostCard post={this.state.post} navigation={this.props.navigation} removeData={this.removeData} editData={this.editData}/>
             </View>
         );
     }
@@ -70,6 +86,7 @@ const AppNavigator = createStackNavigator(
         Home: HomeScreen,
         Write: WriteScreen,
         NoticeBoard: NoticeBoardScreen,
+        Update: UpdateScreen,
     },
     {
         initialRouteName: "Home"
