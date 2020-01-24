@@ -45,7 +45,6 @@ export default class WriteScreen extends Component {
                             style={styles.completeButton}
                             onPress={() => {
                                 const newData = {
-                                    id: Date.now(),
                                     title: this.state.newTitle,
                                     author: this.state.newAuthor,
                                     post: this.state.newPost

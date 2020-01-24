@@ -6,16 +6,18 @@ export default class UpdateScreen extends Component {
         id: "",
         newTitle: "",
         newAuthor: "",
-        newPost: ""
+        newPost: "",
+        newDate: Date.now()
     };
 
     componentDidMount() {
         let data = this.props.navigation.getParam("data", null);
         this.setState({
-            id: data.id,
+            id: data._id,
             newTitle: data.title,
             newAuthor: data.author,
             newPost: data.post,
+            newDate: data.published_date
         });
     }
 
@@ -55,10 +57,11 @@ export default class UpdateScreen extends Component {
                             style={styles.completeButton}
                             onPress={() => {
                                 const newData = {
-                                    id: this.state.id,
+                                    _id: this.state.id,
                                     title: this.state.newTitle,
                                     author: this.state.newAuthor,
-                                    post: this.state.newPost
+                                    post: this.state.newPost,
+                                    published_date: this.state.newDate,
                                 };
 
                                 editData(newData);

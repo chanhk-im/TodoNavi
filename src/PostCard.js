@@ -9,7 +9,7 @@ export default class PostCard extends Component {
                     {this.props.post.map(data => {
                         return (
                             <TouchableOpacity
-                                key={data.id}
+                                key={data._id}
                                 onPress={() =>
                                     this.props.navigation.navigate("NoticeBoard", {
                                         data: data,

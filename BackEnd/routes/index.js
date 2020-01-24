@@ -1,7 +1,9 @@
 module.exports = function(app, Post) {
     // Get all posts
     app.get("/api/posts", function(req, res) {
-        Post.find(function(err, posts) {
+        Post.find()
+        .sort({published_date: -1})
+        .exec(function(err, posts) {
             if (err) return res.status(500).send({ error: "database failure" });
             res.json(posts);
         })
@@ -34,7 +36,6 @@ module.exports = function(app, Post) {
         post.author = req.body.author;
         post.post = req.body.post;
         post.published_date = new Date(req.body.published_date);
-        console.log(req.body);
 
         post.save(function(err) {
             if (err) {
