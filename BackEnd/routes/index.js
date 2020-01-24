@@ -20,7 +20,7 @@ module.exports = function(app, Post) {
     })
 
     // Get post by author
-    app.get("/api/posts/:author", function(req, res) {
+    app.get("/api/posts/author/:author", function(req, res) {
         Post.findOne({ author: req.params.author }, function(err, posts) {
             if (err) return res.status(500).send({ error: err });
             if (posts.length === 0) return res.status(404).send({ error: "post not found" });
