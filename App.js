@@ -33,16 +33,16 @@ class HomeScreen extends Component {
         });
 
         await fetch(`http://${ip}:${port}/api/posts`)
-        .then(res => res.json())
-        .then(resJson => {
-            this.setState({
-                post: resJson
-            })
-        })
+            .then(res => res.json())
+            .then(resJson => {
+                this.setState({
+                    post: resJson
+                });
+            });
 
         this.setState({
-            isLoaded: true,
-        })
+            isLoaded: true
+        });
     }
 
     componentDidMount() {
@@ -51,26 +51,28 @@ class HomeScreen extends Component {
 
     // [Add a Data]
     addData(data) {
-        fetch(`http://${ip}:${port}/api/posts`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                title: data.title,
-                author: data.author,
-                post: data.post,
-                published_date: Date.now()
-            })
-        }).then(() => this.loadDataFromDB());
+        if (data.title && data.author && data.post) {
+            fetch(`http://${ip}:${port}/api/posts`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: data.title,
+                    author: data.author,
+                    post: data.post,
+                    published_date: Date.now()
+                })
+            }).then(() => this.loadDataFromDB());
+        }
     }
 
     // [Remove a Data]
     removeData(id) {
         fetch(`http://${ip}:${port}/api/posts/${id}`, {
             method: "DELETE"
-        })
+        });
 
         this.loadDataFromDB();
     }
@@ -87,7 +89,7 @@ class HomeScreen extends Component {
                 title: data.title,
                 author: data.author,
                 post: data.post,
-                published_date: data.published_date,
+                published_date: data.published_date
             })
         }).then(() => this.loadDataFromDB());
     }
@@ -98,10 +100,8 @@ class HomeScreen extends Component {
                 <View style={styles.loading}>
                     <Text>Loading...</Text>
                 </View>
-            )
-        }
-        
-        else {
+            );
+        } else {
             return (
                 <View style={styles.container}>
                     <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
@@ -111,10 +111,7 @@ class HomeScreen extends Component {
                         >
                             <Text>Create</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => this.loadDataFromDB()}
-                            style={styles.button}
-                        >
+                        <TouchableOpacity onPress={() => this.loadDataFromDB()} style={styles.button}>
                             <Text>Reload</Text>
                         </TouchableOpacity>
                     </View>
@@ -135,7 +132,7 @@ const AppNavigator = createStackNavigator(
         Home: HomeScreen,
         Write: WriteScreen,
         NoticeBoard: NoticeBoardScreen,
-        Update: UpdateScreen,
+        Update: UpdateScreen
     },
     {
         initialRouteName: "Home"
@@ -160,7 +157,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#eee",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     button: {
         height: 40,
