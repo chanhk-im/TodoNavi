@@ -6,14 +6,15 @@ import { createStackNavigator } from "react-navigation-stack";
 export default class NoticeBoardScreen extends Component {
     render() {
         const { navigation } = this.props;
-        const abc = navigation.getParam("data", null);
+        const data = navigation.getParam("data", null);
         const removeData = navigation.getParam("removeData", null)
         const editData = navigation.getParam("editData", null);
+        const user = navigation.getParam("user", null);
 
-        const id = abc._id;
-        const title = abc.title;
-        const author = abc.author;
-        const post = abc.post;
+        const id = data._id;
+        const title = data.title;
+        const author = data.author;
+        const post = data.post;
 
         return (
             <View style={styles.container}>
@@ -27,7 +28,9 @@ export default class NoticeBoardScreen extends Component {
                     <Text>Delete</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => {
-                    navigation.navigate("Update", {editData: editData, data: abc});
+                    if (user.id === data.author) {
+                        navigation.navigate("Update", { editData: editData, data: data });
+                    }
                 }}>
                     <Text>Edit</Text>
                 </TouchableOpacity>

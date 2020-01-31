@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-nativ
 export default class WriteScreen extends Component {
     state = {
         newTitle: "",
-        newAuthor: "",
         newPost: ""
     };
 
@@ -11,6 +10,7 @@ export default class WriteScreen extends Component {
 
     render() {
         let addData = this.props.navigation.getParam("addData", null);
+        const user = this.props.navigation.getParam("user", null);
 
         return (
             <View style={styles.container}>
@@ -22,13 +22,9 @@ export default class WriteScreen extends Component {
                         autoCorrect={false}
                         onChangeText={title => this.setState({ newTitle: title })}
                     />
-                    <TextInput
-                        style={styles.authorBox}
-                        value={this.state.newAuthor}
-                        placeholder="author"
-                        autoCorrect={false}
-                        onChangeText={author => this.setState({ newAuthor: author })}
-                    />
+                    <View style={styles.authorBox}>
+                        <Text >{user.id}</Text>
+                    </View>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.postBox}>
@@ -46,7 +42,7 @@ export default class WriteScreen extends Component {
                             onPress={() => {
                                 const newData = {
                                     title: this.state.newTitle,
-                                    author: this.state.newAuthor,
+                                    author: user.id,
                                     post: this.state.newPost
                                 };
 

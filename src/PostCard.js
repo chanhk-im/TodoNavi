@@ -10,13 +10,14 @@ export default class PostCard extends Component {
                         return (
                             <TouchableOpacity
                                 key={data._id}
-                                onPress={() =>
+                                onPress={() => {
                                     this.props.navigation.navigate("NoticeBoard", {
                                         data: data,
+                                        user: this.props.user,
                                         removeData: this.props.removeData,
                                         editData: this.props.editData
                                     })
-                                }
+                                }}
                             >
                                 <View style={styles.postCard}>
                                     <View style={{ margin: 5 }}>

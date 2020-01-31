@@ -5,7 +5,6 @@ export default class UpdateScreen extends Component {
     state = {
         id: "",
         newTitle: "",
-        newAuthor: "",
         newPost: "",
         newDate: Date.now()
     };
@@ -15,13 +14,13 @@ export default class UpdateScreen extends Component {
         this.setState({
             id: data._id,
             newTitle: data.title,
-            newAuthor: data.author,
             newPost: data.post,
             newDate: data.published_date
         });
     }
 
     render() {
+        let data = this.props.navigation.getParam("data", null);
         let editData = this.props.navigation.getParam("editData", null);
 
         return (
@@ -34,13 +33,9 @@ export default class UpdateScreen extends Component {
                         autoCorrect={false}
                         onChangeText={title => this.setState({ newTitle: title })}
                     />
-                    <TextInput
-                        style={styles.authorBox}
-                        value={this.state.newAuthor}
-                        placeholder="author"
-                        autoCorrect={false}
-                        onChangeText={author => this.setState({ newAuthor: author })}
-                    />
+                    <View style={styles.authorBox}>
+                        <Text>{data.author}</Text>
+                    </View>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.postBox}>
@@ -59,7 +54,7 @@ export default class UpdateScreen extends Component {
                                 const newData = {
                                     _id: this.state.id,
                                     title: this.state.newTitle,
-                                    author: this.state.newAuthor,
+                                    author: data.author,
                                     post: this.state.newPost,
                                     published_date: this.state.newDate,
                                 };
