@@ -1,4 +1,9 @@
-module.exports = function(app, Post) {
+var Post = require("../models/post");
+var User = require("../models/user");
+
+var crypto = require("crypto");
+
+module.exports = function(app) {
     // Get all posts
     app.get("/api/posts", function(req, res) {
         Post.find()
@@ -68,4 +73,43 @@ module.exports = function(app, Post) {
             res.status(204).end;
         })
     })
+
+	app.post("/api/users/signup", function(req, res) {
+		User.find({ id: req.body.id })
+			.exec()
+			.then(user => {
+				if (user.length >= 1) {
+					res.json({ result: "id is exist" });
+				} else {
+					const user = new User({
+						id: req.body.id,
+						password: crypto.createHash('sha512').update(req.body.password).digest('base64'),
+						email: req.body.email,
+						name: req.body.name,
+					});
+					user.save(function(err) {
+						if (err) {
+							console.error(err);
+							res.json({ result: 0 });
+							return;
+						}
+
+						res.json({ result: 1 });
+					});
+				}
+			});
+	});
+
+	app.post("/api/users/login", function(req, res) {
+		User.findOne({ id: req.body.id }, function(err, user) {
+			if (err) return res.status(500).json({ error: "database failure" });
+			if (!user) return res.status(404).json({ error: "this id is not exist" });
+
+			if (user.password === crypto.createHash('sha512').update(req.body.password).digest('base64'))
+				res.json(user);
+			else
+				return res.json({ error: "password is wrong" });
+		});
+	});
+
 }

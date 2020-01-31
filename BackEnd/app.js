@@ -17,9 +17,6 @@ db.once("open", function() {
 
 mongoose.connect("mongodb://localhost/todo_navigation", { useNewUrlParser: true });
 
-// define model
-var Post = require("./models/post");
-
 // [Configure App to Use body-parser]
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -28,7 +25,7 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8080;
 
 // [Configure Router]
-var router = require("./routes")(app, Post);
+var router = require("./routes")(app);
 
 // [Run Server]
 var server = app.listen(port, function() {
